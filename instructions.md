@@ -33,3 +33,18 @@ loader = MoexOHLCVLoader(
 
 df = loader.load()
 print(df.head())
+
+# Use BybitOrderBookLoader
+
+loader = BybitOrderBookLoader(category="linear")
+
+df = loader.load("BTCUSDT", limit=50)
+print(df)
+
+agg = loader.get_top("BTCUSDT", limit=50)
+print(agg)
+
+loader.print_top("BTCUSDT", limit=50) 
+
+only_bd = loader.get_bids_asks("BTCUSDT", limit=50)
+print(only_bd)

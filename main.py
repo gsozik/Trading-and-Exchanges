@@ -6,12 +6,10 @@ from data.ohlcv.csv_loader import CsvOHLCVLoader
 from data.ohlcv.bybit_loader import BybitOHLCVLoader
 from data.ohlcv.moex_loader import MoexOHLCVLoader
 
-loader = MoexOHLCVLoader(
-    ticker="SBER",
-    timeframe="1h",
-    start="2024-01-01",
-    end="2024-12-31"
-)
+from data.orderbook.bybit_orderbook import BybitOrderBookLoader
 
-df = loader.load()
-print(df.head())
+
+loader = BybitOrderBookLoader(category="linear")
+
+df = loader.print_top("BTCUSDT", limit=50)
+print(df)
