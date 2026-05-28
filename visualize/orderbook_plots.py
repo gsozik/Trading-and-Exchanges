@@ -1,6 +1,8 @@
 import pandas as pd
 import plotly.graph_objects as go
-
+import time
+import webbrowser
+from pathlib import Path
 
 def plot_orderbook_depth(
     df: pd.DataFrame,
@@ -140,3 +142,84 @@ def plot_orderbook_depth(
     )
 
     return fig
+
+
+
+
+def run_live_orderbook_html(
+
+    loader,
+
+    symbol: str = "BTCUSDT",
+
+    limit: int = 50,
+
+    depth: int = 50,
+
+    interval: float = 0.4,
+
+    output_path: str = "live_orderbook.html",
+
+    open_browser: bool = True,
+
+):
+
+    output_path = Path(output_path).resolve()
+
+    if open_browser:
+
+        webbrowser.open(output_path.as_uri())
+
+    while True:
+
+        loop_start = time.time()
+
+        try:
+
+            df = loader.load(symbol=symbol, limit=limit)
+
+            fig = plot_orderbook_depth(
+
+                df=df,
+
+                depth=depth,
+
+                title=f"{symbol} Live Order Book",
+
+            )
+
+            fig.write_html(
+
+                str(output_path),
+
+                include_plotlyjs="cdn",
+
+                auto_open=False,
+
+            )
+
+            elapsed = time.time() - loop_start
+
+            print(
+
+                f"{symbol} | "
+
+                f"ts={df['timestamp'].iloc[0]} | "
+
+                f"update={elapsed:.3f}s | "
+
+                f"file={output_path.name}"
+
+            )
+
+        except Exception as e:
+
+            print(f"[LIVE ORDERBOOK ERROR] {e}")
+
+        elapsed = time.time() - loop_start
+
+        wait_time = max(0, interval - elapsed)
+
+        if wait_time > 0:
+
+            time.sleep(wait_time)

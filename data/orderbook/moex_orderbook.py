@@ -81,9 +81,9 @@ class MoexOrderBookLoader(BaseLoader):
             "best_ask": ask_price,
             "bid_size": bid_size,
             "ask_size": ask_size,
-            "mid_price": (bid_price + ask_price) / 2,
-            "spread": ask_price - bid_price,
-            "imbalance": bid_size / (bid_size + ask_size),
+            #"mid_price": (bid_price + ask_price) / 2,   # Move to metrics
+            #"spread": ask_price - bid_price,
+            #"imbalance": bid_size / (bid_size + ask_size), 
         }
 
     def print_top(self, symbol: str, limit: int = 50):
@@ -97,9 +97,9 @@ class MoexOrderBookLoader(BaseLoader):
         print(f"Best Ask  : {float(top['best_ask']):,.2f}")
         print(f"Bid Size  : {float(top['bid_size']):,.0f}")
         print(f"Ask Size  : {float(top['ask_size']):,.0f}")
-        print(f"Mid Price : {float(top['mid_price']):,.2f}")
-        print(f"Spread    : {float(top['spread']):.4f}")
-        print(f"Imbalance : {float(top['imbalance']):.4f}")
+        #print(f"Mid Price : {float(top['mid_price']):,.2f}") # Move to metrics
+        #print(f"Spread    : {float(top['spread']):.4f}")
+        #print(f"Imbalance : {float(top['imbalance']):.4f}")
         print("=" * 35)
 
     def get_bids_asks(self, symbol: str, limit: int = 50):

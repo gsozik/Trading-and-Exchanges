@@ -13,11 +13,8 @@ from metrics.ohlcv_metrics import make_ohlcv_features
 from metrics.orderbook_metrics import orderbook_view, make_orderbook_features
 
 from visualize.orderbook_plots import plot_orderbook_depth
+from debug.live_data import live_orderbook
+
+live_orderbook(symbol='TWTUSDT', depth= 50,category='linear', log_orderbook = True, log_trades= True, print_book= True)
 
 
-loader = BybitOrderBookLoader()
-
-df = loader.load("SOLUSDT", limit=50)
-
-fig = plot_orderbook_depth(df, depth=50)
-fig.show()
